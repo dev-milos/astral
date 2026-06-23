@@ -8,6 +8,11 @@ RUN su vscode -c "/usr/local/rvm/bin/rvm fix-permissions"
 # The value is a comma-separated list of allowed domains 
 ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.preview.app.github.dev,.app.github.dev"
 
+# Drop the stale yarn apt source shipped by the base image: its signing key
+# was rotated (NO_PUBKEY 62D54FD4003F6525), which breaks `apt-get update`.
+# yarn itself is already installed in the base image, so the source isn't needed.
+RUN find /etc/apt -name '*.list' -exec sed -i '/dl.yarnpkg.com/d' {} +
+
 # [Optional] Uncomment this section to install additional OS packages.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends postgresql-client emacs-nox
