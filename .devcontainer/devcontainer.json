@@ -20,7 +20,7 @@
         "forwardPorts": [3000, 5432, 8200, 8300],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-        "postCreateCommand": "bundle install && rake oidc_provider:configure && rake db:setup",
+        "postCreateCommand": "bundle install && bundle exec rake oidc_provider:configure && bundle exec rake db:setup",
 
 	// Configure tool-specific properties.
 	// "customizations": {},
